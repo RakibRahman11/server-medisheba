@@ -26,8 +26,14 @@ async function run() {
 
     // get methods
     app.get("/services", async (req, res) => {
-      const result = await servicesCollection.find({}).toArray();
-      res.json(result);
+      const limit = parseInt(req?.query?.limit);
+      if (limit) {
+        const result = await servicesCollection.find({}).limit(limit).toArray();
+        res.json(result);
+      } else {
+        const result = await servicesCollection.find({}).toArray();
+        res.json(result);
+      }
     });
   } catch {
     // await    client.close()
