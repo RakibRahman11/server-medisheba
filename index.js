@@ -23,7 +23,7 @@ async function run() {
     await client.connect();
 
     const servicesCollection = client.db("medi-sheba").collection("services");
-    const medicinesCollection = client.db("medi-sheba").collection("services");
+    const medicinesCollection = client.db("medi-sheba").collection("medicines");
 
     // get methods
     app.get("/services", async (req, res) => {
