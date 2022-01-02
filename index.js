@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const { MongoClient } = require("mongodb");
+const ObjectId = require("mongodb").ObjectId;
 
 app.use(cors());
 app.use(express.json());
@@ -37,6 +38,13 @@ async function run() {
       }
     });
 
+    app.get("/getOneService/:id", async (req, res) => {
+      const result = await servicesCollection.findOne({
+        _id: ObjectId(req.params.id),
+      });
+      res.json(result);
+    });
+
     app.get("/medicines", async (req, res) => {
       const limit = parseInt(req?.query?.limit);
       if (limit) {
@@ -49,6 +57,13 @@ async function run() {
         const result = await medicinesCollection.find({}).toArray();
         res.json(result);
       }
+    });
+
+    app.get("/getOneMedicine/:id", async (req, res) => {
+      const result = await medicinesCollection.findOne({
+        _id: ObjectId(req.params.id),
+      });
+      res.json(result);
     });
   } catch {
     // await    client.close()
