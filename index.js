@@ -23,6 +23,7 @@ async function run() {
     await client.connect();
 
     const servicesCollection = client.db("medi-sheba").collection("services");
+    const medicinesCollection = client.db("medi-sheba").collection("services");
 
     // get methods
     app.get("/services", async (req, res) => {
@@ -32,6 +33,20 @@ async function run() {
         res.json(result);
       } else {
         const result = await servicesCollection.find({}).toArray();
+        res.json(result);
+      }
+    });
+
+    app.get("/medicines", async (req, res) => {
+      const limit = parseInt(req?.query?.limit);
+      if (limit) {
+        const result = await medicinesCollection
+          .find({})
+          .limit(limit)
+          .toArray();
+        res.json(result);
+      } else {
+        const result = await medicinesCollection.find({}).toArray();
         res.json(result);
       }
     });
