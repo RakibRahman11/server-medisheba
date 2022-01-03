@@ -93,12 +93,6 @@ async function run() {
       res.json(result);
     });
 
-    // Post methods
-    app.post("/addOrder", async (req, res) => {
-      const result = await requstServicesCollection.insertOne(req.body);
-      res.json(result);
-    });
-
     app.get("/addOrder", async (req, res) => {
       const limit = parseInt(req?.query?.limit);
       if (limit) {
@@ -116,6 +110,18 @@ async function run() {
       const result = await requstServicesCollection.findOne({
         _id: ObjectId(req.params.id),
       });
+      res.json(result);
+    });
+    app.get("/getOrderByEmail/:email", async (req, res) => {
+      const result = await requstServicesCollection.findOne({
+        email: req.params.email,
+      });
+      res.json(result);
+    });
+
+    // Post methods
+    app.post("/addOrder", async (req, res) => {
+      const result = await requstServicesCollection.insertOne(req.body);
       res.json(result);
     });
   } catch {
