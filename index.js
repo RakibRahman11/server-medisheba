@@ -28,6 +28,9 @@ async function run() {
     const testimonialsCollection = client
       .db("medi-sheba")
       .collection("testimonials");
+    const requstServicesCollection = client
+      .db("medi-sheba")
+      .collection("requstServices");
 
     // get methods
     app.get("/services", async (req, res) => {
@@ -87,6 +90,12 @@ async function run() {
       const result = await testimonialsCollection.findOne({
         _id: ObjectId(req.params.id),
       });
+      res.json(result);
+    });
+
+    // Post methods
+    app.post("/addOrder", async (req, res) => {
+      const result = await requstServicesCollection.insertOne(req.body);
       res.json(result);
     });
   } catch {
