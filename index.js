@@ -98,6 +98,26 @@ async function run() {
       const result = await requstServicesCollection.insertOne(req.body);
       res.json(result);
     });
+
+    app.get("/addOrder", async (req, res) => {
+      const limit = parseInt(req?.query?.limit);
+      if (limit) {
+        const result = await requstServicesCollection
+          .find({})
+          .limit(limit)
+          .toArray();
+        res.json(result);
+      } else {
+        const result = await requstServicesCollection.find({}).toArray();
+        res.json(result);
+      }
+    });
+    app.get("/getOneOrder/:id", async (req, res) => {
+      const result = await requstServicesCollection.findOne({
+        _id: ObjectId(req.params.id),
+      });
+      res.json(result);
+    });
   } catch {
     // await    client.close()
   }
