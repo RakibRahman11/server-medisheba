@@ -32,6 +32,10 @@ async function run() {
       .db("medi-sheba")
       .collection("requstServices");
 
+    const medicineOrdersCollection = client
+      .db("medi-sheba")
+      .collection("medicineOrders");
+
     // get methods
     app.get("/services", async (req, res) => {
       const limit = parseInt(req?.query?.limit);
@@ -122,6 +126,10 @@ async function run() {
     // Post methods
     app.post("/addOrder", async (req, res) => {
       const result = await requstServicesCollection.insertOne(req.body);
+      res.json(result);
+    });
+    app.post("/addMedicine", async (req, res) => {
+      const result = await medicineOrdersCollection.insertOne(req.body);
       res.json(result);
     });
   } catch {
