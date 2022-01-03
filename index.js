@@ -25,6 +25,9 @@ async function run() {
 
     const servicesCollection = client.db("medi-sheba").collection("services");
     const medicinesCollection = client.db("medi-sheba").collection("medicines");
+    const testimonialsCollection = client
+      .db("medi-sheba")
+      .collection("testimonials");
 
     // get methods
     app.get("/services", async (req, res) => {
@@ -61,6 +64,27 @@ async function run() {
 
     app.get("/getOneMedicine/:id", async (req, res) => {
       const result = await medicinesCollection.findOne({
+        _id: ObjectId(req.params.id),
+      });
+      res.json(result);
+    });
+
+    app.get("/testimonials", async (req, res) => {
+      const limit = parseInt(req?.query?.limit);
+      if (limit) {
+        const result = await testimonialsCollection
+          .find({})
+          .limit(limit)
+          .toArray();
+        res.json(result);
+      } else {
+        const result = await testimonialsCollection.find({}).toArray();
+        res.json(result);
+      }
+    });
+
+    app.get("/getOneTestimonial/:id", async (req, res) => {
+      const result = await testimonialsCollection.findOne({
         _id: ObjectId(req.params.id),
       });
       res.json(result);
