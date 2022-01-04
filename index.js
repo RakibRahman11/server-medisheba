@@ -35,6 +35,7 @@ async function run() {
     const medicineOrdersCollection = client
       .db("medi-sheba")
       .collection("medicineOrders");
+    const discountsCollection = client.db("medi-sheba").collection("discounts");
 
     // get methods
     app.get("/services", async (req, res) => {
@@ -120,6 +121,11 @@ async function run() {
       const result = await requstServicesCollection.findOne({
         email: req.params.email,
       });
+      res.json(result);
+    });
+
+    app.get("/discounts", async (req, res) => {
+      const result = await discountsCollection.find({}).toArray();
       res.json(result);
     });
 
